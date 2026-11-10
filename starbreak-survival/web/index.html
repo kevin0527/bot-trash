@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0d1e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>飞机大战 · 星环突围</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23192541'/%3E%3Cpath d='M16 5l3.5 7.5L27 16l-7.5 3.5L16 27l-3.5-7.5L5 16l7.5-3.5z' fill='%2388f6f2'/%3E%3C/svg%3E">
+  <link rel="manifest" href="starbreak.webmanifest">
+  <link rel="apple-touch-icon" href="assets/app/icon-192.png">
+  <link rel="stylesheet" href="style.css?v=27">
+  <script src="game.js?v=35" defer></script>
+</head>
+<body>
+  <main class="cabinet">
+    <section class="machine" aria-label="星环突围游戏">
+      <header class="masthead">
+        <div class="identity">
+          <span class="emblem" aria-hidden="true">✦</span>
+          <div><p class="kicker">STARBREAK / SURVIVAL</p><h1>飞机大战</h1></div>
+        </div>
+        <div class="hud">
+          <div><span class="label">得分</span><strong id="score">00000</strong></div>
+          <div class="clock"><span class="label">飞行时间</span><strong id="time">00:00</strong></div>
+        </div>
+        <div class="masthead-actions">
+          <button id="sound" class="audio-toggle" type="button" aria-label="音效" aria-pressed="true">
+            <svg class="audio-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h4l5-4v14l-5-4H3z"/><path class="audio-on" d="M15 9a4 4 0 0 1 0 6m2-8a7 7 0 0 1 0 10"/><path class="audio-off" d="m16 10 4 4m0-4-4 4"/></svg>
+            <span>音效开</span>
+          </button>
+          <button id="music" class="audio-toggle" type="button" aria-label="背景音乐" aria-pressed="true">
+            <svg class="audio-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17V6l10-2v11m-10 2c0 1.7-1.6 3-3.5 3S3 19 3 17.5 4.6 15 6.5 15c1.4 0 2.6.6 3.5 2Zm10-2c0 1.7-1.6 3-3.5 3S13 17 13 15.5s1.6-2.5 3.5-2.5c1.4 0 2.6.6 3.5 2Z"/><path class="audio-off" d="m4 4 16 16"/></svg>
+            <span>音乐开</span>
+          </button>
+          <button id="fullscreen" class="screen-toggle" type="button" aria-label="进入全屏" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path class="screen-enter" d="M9 4H4v5m11-5h5v5m0 6v5h-5m-6 0H4v-5"/>
+              <path class="screen-exit" d="M4 9h5V4m11 5h-5V4m5 11h-5v5M4 15h5v5"/>
+            </svg>
+            <span>全屏</span>
+          </button>
+          <p class="phase"><span class="status-light" aria-hidden="true"></span><span id="phase">待命</span></p>
+        </div>
+      </header>
+
+      <div class="flight-field">
+        <div class="stage" id="stage">
+          <div class="arena">
+            <canvas id="field" width="960" height="540" tabindex="0" aria-label="战场。拖动战机或在屏幕左侧滑动，也可用方向键或 WASD 移动。"></canvas>
+            <div class="flight-corner">
+              <div id="flight-readout" class="flight-readout" role="group" aria-label="战斗数据" hidden>
+                <span class="label">得分</span><strong id="flight-score">00000</strong>
+                <span class="label">时长</span><strong id="flight-time">00:00</strong>
+              </div>
+              <button id="pause" class="pause-toggle" type="button" aria-label="暂停" title="暂停（P）" hidden>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6v12m6-12v12"/></svg>
+              </button>
+            </div>
+            <div class="boss-status" id="boss-status" hidden>
+              <span><span id="boss-name">烬环守卫</span> · 核心 <strong id="boss-hp-label">1120/1120</strong></span>
+              <progress id="boss-health" aria-label="Boss 核心耐久" max="1" value="1"></progress>
+            </div>
+            <div id="announcement" class="announcement" aria-hidden="true" hidden></div>
+            <p id="weapon-status" class="weapon-status" hidden><span id="weapon-name">3 路射击</span> <strong id="weapon-time">8 秒</strong></p>
+            <div id="overlay" class="overlay is-home">
+              <div class="brief">
+                <p id="brief-tag" class="kicker">一命连战 · 星环禁区</p>
+                <h2 id="brief-title">星环突围</h2>
+                <p id="brief-text">躲避敌机，击破核心。</p>
+                <div class="brief-actions">
+                  <button id="start" class="primary" type="button" disabled>载入素材… <span aria-hidden="true">↗</span></button>
+                  <button id="hangar-open" class="hangar-entry" type="button" aria-haspopup="dialog" disabled>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20v-9l9-7 9 7v9H3Zm5 0v-6h8v6M12 8v2"/></svg>
+                    战机仓库
+                  </button>
+                </div>
+                <p class="rotate-hint">横转手机，横屏体验更佳</p>
+              </div>
+            </div>
+            <div id="countdown" class="countdown" hidden>
+              <span>出击倒计时</span><strong id="countdown-number" role="status" aria-atomic="true">3</strong>
+            </div>
+            <div id="pause-menu" class="pause-menu" role="region" aria-labelledby="pause-title" hidden>
+              <div>
+                <h2 id="pause-title">飞行暂停</h2>
+                <p id="pause-note" role="status" hidden></p>
+                <button id="resume" class="primary" type="button">继续飞行</button>
+                <div class="pause-settings" role="group" aria-label="飞行设置">
+                  <button id="pause-sound" class="audio-toggle" type="button" aria-label="音效" aria-pressed="true"><span>音效开</span></button>
+                  <button id="pause-music" class="audio-toggle" type="button" aria-label="背景音乐" aria-pressed="true"><span>音乐开</span></button>
+                  <button id="pause-fullscreen" class="screen-toggle" type="button" aria-label="进入全屏" aria-pressed="false">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H4v5m11-5h5v5m0 6v5h-5m-6 0H4v-5"/></svg>
+                    <span>全屏</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flight-controls" hidden>
+          <div class="console">
+            <div class="charge">
+              <label for="energy"><span>光束能量</span><strong id="energy-text">0%</strong></label>
+              <progress id="energy" max="100" value="0"></progress>
+            </div>
+            <button id="beam" class="beam" type="button" disabled>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13 2 4 14h7l-1 8 10-13h-7z"/></svg>
+              <span>全域光束</span><kbd>Space</kbd>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <dialog id="fullscreen-help" class="fullscreen-help" aria-labelledby="fullscreen-help-title" aria-describedby="fullscreen-help-text">
+      <h2 id="fullscreen-help-title">全屏游玩</h2>
+      <p id="fullscreen-help-text">在 iPhone 的 Safari 页面菜单里选择「隐藏工具栏」。也可以在分享菜单选择「添加到主屏幕」，启用「作为网页 App 打开」。</p>
+      <form method="dialog">
+        <button class="primary" autofocus>知道了</button>
+      </form>
+    </dialog>
+
+    <dialog id="hangar" class="hangar" aria-labelledby="hangar-title">
+      <header class="hangar-header">
+        <h2 id="hangar-title">战机仓库</h2>
+        <button id="hangar-close" class="hangar-close" type="button" aria-label="关闭战机仓库" autofocus>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+        </button>
+      </header>
+      <div class="hangar-content">
+        <div id="hangar-showcase" class="hangar-showcase">
+          <canvas id="hangar-preview" width="880" height="344" aria-hidden="true"></canvas>
+          <div id="hangar-film-preview" class="hangar-film-preview" aria-hidden="true" hidden>
+            <video id="crown-film" playsinline disablepictureinpicture disableremoteplayback preload="none" data-src="assets/starbreak-v1/crown-preview.mp4?v=3" data-mobile-src="assets/starbreak-v1/crown-preview-mobile.mp4"></video>
+          </div>
+          <p id="hangar-film-status" role="status" hidden></p>
+          <div class="hangar-details">
+            <div class="hangar-name"><h3 id="skin-name">巡航者</h3><span id="skin-rarity">普通</span></div>
+            <p id="skin-description"></p>
+            <p id="skin-effect"></p>
+          </div>
+          <div class="hangar-demos" role="group" aria-label="特效预览">
+            <button id="hangar-replay" class="hangar-replay" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10a8 8 0 1 1 1 7M4 4v6h6"/></svg>
+              登场
+            </button>
+            <button id="hangar-film-open" class="hangar-replay" type="button" aria-pressed="false" hidden>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10a8 8 0 1 1 1 7M4 4v6h6"/></svg>
+              登场
+            </button>
+            <button id="hangar-beam" class="hangar-replay" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m13 3-8 10h6l-1 8 9-11h-6l1-7Z"/></svg>
+              光束
+            </button>
+          </div>
+        </div>
+        <div id="skin-list" class="skin-list" role="group" aria-label="战机皮肤墙"></div>
+      </div>
+      <footer class="hangar-footer">
+        <p id="skin-status" role="status">外观与特效独立于战斗数值</p>
+        <button id="skin-equip" class="primary skin-equip" type="button">装备战机</button>
+      </footer>
+    </dialog>
+
+    <footer class="controls">
+      <p><kbd>方向键</kbd> / <kbd>WASD</kbd> 移动 · 自动射击</p>
+      <p>碰触道具拾取 · 加速机与重型机更容易掉落武器模块</p>
+    </footer>
+  </main>
+  <audio id="music-track" src="assets/audio-recording/music.mp3" preload="metadata" loop></audio>
+</body>
+</html>
