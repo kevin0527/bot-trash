@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "scripts": {
+    "preview": "python3 -m http.server 8817 --bind 127.0.0.1",
+    "review": "node render.mjs review",
+    "film": "node render.mjs film"
+  },
+  "dependencies": {
+    "@codepawlhq/67js": "0.17.0"
+  }
+}

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0f1b">
+  <title>烬环守卫 · 本地预览</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font: 16px/1.55 system-ui, "PingFang SC", sans-serif;
+      color: #edf2fb;
+      background: #0b0f1b;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { width: min(1200px, 100% - 48px); margin: auto; padding: 48px 0 56px; }
+    header { margin-bottom: 36px; }
+    h1, h2, p, figure { margin: 0; }
+    h1 { font-size: clamp(32px, 6vw, 54px); line-height: 1.14; letter-spacing: .02em; }
+    header p { margin-top: 8px; color: #a6b6d2; }
+    section + section { margin-top: 40px; }
+    .section-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 18px; margin-bottom: 12px; }
+    h2 { font-size: 22px; line-height: 1.3; }
+    .section-head p { color: #a6b6d2; font-size: 14px; }
+    .comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    figure { overflow: hidden; border: 1px solid #31405b; border-radius: 10px; background: #101726; }
+    figure img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: 77% center; }
+    figcaption { padding: 8px 14px; color: #abcfff; font-weight: 650; }
+    figure + figure figcaption { color: #ffc08b; }
+    video { display: block; width: 100%; aspect-ratio: 16 / 9; border: 1px solid #31405b; border-radius: 10px; background: #050711; }
+    .chapters { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; color: #c5d3ec; font-size: 14px; }
+    .chapters time { display: block; color: #a4b1cb; font: 600 12px/1.55 ui-monospace, monospace; }
+    @media (max-width: 500px) {
+      main { width: calc(100% - 28px); padding-top: 26px; }
+      header { margin-bottom: 26px; }
+      .comparison { gap: 6px; }
+      figure img { aspect-ratio: 3 / 4; object-position: 62% center; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>烬环守卫</h1>
+      <p>《星环突围》本地灯光与登场实验 · 67.js</p>
+    </header>
+    <section aria-labelledby="lighting-title">
+      <div class="section-head">
+        <h2 id="lighting-title">冷暖光对照</h2>
+        <p>同一模型、机位、姿态与曝光</p>
+      </div>
+      <div class="comparison">
+        <figure>
+          <img src="artifacts/cool.png" width="1280" height="720" alt="蓝银色灯光照亮烬环守卫装甲">
+          <figcaption>冷光</figcaption>
+        </figure>
+        <figure>
+          <img src="artifacts/warm.png" width="1280" height="720" alt="琥珀色灯光照亮同一姿态的烬环守卫">
+          <figcaption>暖光</figcaption>
+        </figure>
+      </div>
+    </section>
+    <section aria-labelledby="film-title">
+      <div class="section-head">
+        <h2 id="film-title">Boss 登场</h2>
+        <p>6 秒 · 720p · 30 fps</p>
+      </div>
+      <video controls playsinline preload="metadata" poster="artifacts/hero.png" aria-label="烬环守卫 6 秒登场样片">
+        <source src="artifacts/star-ring-intro.mp4" type="video/mp4">
+      </video>
+      <div class="chapters">
+        <p><time>0.0–1.7 秒</time>剪影入场</p>
+        <p><time>1.7–3.4 秒</time>翼片展开</p>
+        <p><time>3.4–6.0 秒</time>核心蓄能并点亮</p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

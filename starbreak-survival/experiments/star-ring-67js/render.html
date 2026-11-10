@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<title>StarRing · 67.js Render Stage</title>
+<style>
+  body { margin: 0; background: #050711; }
+  canvas { display: block; width: 1280px; height: 720px; }
+  #geometry { position: absolute; top: 0; left: 0; opacity: 0; pointer-events: none; }
+</style>
+<canvas id="geometry" width="1280" height="720"></canvas>
+<canvas id="frame" width="1280" height="720"></canvas>
+<script type="importmap">
+{"imports":{
+  "@codepawlhq/67js":"./node_modules/@codepawlhq/67js/build/67.module.js",
+  "@codepawlhq/67js/addons/gltf":"./node_modules/@codepawlhq/67js/build/gltf.js",
+  "@codepawlhq/67js/addons/agent-asset":"./node_modules/@codepawlhq/67js/build/agent-asset.js"
+}}
+</script>
+<script type="module" src="./scene.js"></script>
+</html>
